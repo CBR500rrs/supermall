@@ -6,6 +6,8 @@
        <home-swiper :banners='banners'></home-swiper>
        <home-recommend :recommends='recommends'></home-recommend>
        <popular ></popular>
+       <tab-control class="tab-contorl" :titles="['流行', '新款', '精选']"></tab-control>
+        <goods-list :goods="goods['pop'].list"></goods-list>
     </div>
 </template>
 
@@ -15,7 +17,12 @@ import HomeSwiper from './childComps/HomeSwiper'
 import HomeRecommend from './childComps/HomeRecommend'
 import Popular from './childComps/Popular'
 
-import {getHomeMultidata} from 'network/home.js'
+import TabControl from 'components/content/tabControl/TabControl'
+import GoodsList from 'components/content/goods/GoodsList'
+
+import {getHomeMultidata, getHomeGoods} from 'network/home.js'
+
+
 
 
 export default {
@@ -24,21 +31,47 @@ export default {
         NavBar,
         HomeSwiper,
         HomeRecommend,
-        Popular
+        Popular,
+        TabControl,
+        GoodsList
     },
     data(){
         return {
             banners:[],
-            recommends:[]
+            recommends:[],
+            goods:{
+                'pop': {page: 0, list: []},
+                'new': {page: 0, list: []},
+                'sell': {page: 0, list: []},
+
+            }
         }
     },
     created() {
-        getHomeMultidata().then(res=>{
+        this.getHomeMultidata(),
+        // 请求商品数据
+        this.getHomeGoods('pop'),
+        this.getHomeGoods('new'),
+        this.getHomeGoods('sell')
+
+    },
+    methods: {
+         getHomeMultidata(){
+             getHomeMultidata().then(res=>{
             // console.log(res);
             this.banners = res.data.banner.list
             this.recommends = res.data.recommend.list
-
-        })
+            })
+         },
+        getHomeGoods(type){
+            const page = this.goods[type].page + 1
+            getHomeGoods(type, page).then(res=>{
+                this.goods[type].list.push(...res.data.list)
+                this.goods[type].page += 1
+                // console.log(res);
+                // console.log(res.data.page);
+            })
+        }
     },
 }
 </script>
@@ -56,6 +89,11 @@ export default {
         right: 0;
         top: 0;
         z-index: 9;
+    }
+    .tab-control{
+        background-color: white;
+        position: sticky;
+        top: 44px;
     }
 
 </style>
