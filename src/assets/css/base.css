@@ -77,3 +77,6 @@ img {
     font-size: 13px;
     color: rgb(151, 151, 151);
 }
+/* #app::-webkit-scrollbar {
+    display: none
+  } */

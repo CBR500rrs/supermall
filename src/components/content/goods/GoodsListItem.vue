@@ -1,10 +1,10 @@
 <template>
     <div class="goodslistitem">
         <img :src="goodsItem.show.img" alt="">
-        <div>
+        <div class="goods-info">
             <p>{{goodsItem.title}}</p>
             <span class="price">￥ {{goodsItem.price}}</span>
-            <span class="collect">★ {{goodsItem.cfav}}</span>
+            <span class="collect">{{goodsItem.cfav}}</span>
 
         </div>
     </div>
@@ -26,22 +26,47 @@ export default {
 
 <style>
 .goodslistitem {
-    margin-top: 10px;
-    width: 160px;
-    text-align: center;
-    /* border: 1px solid rgb(216, 212, 212); */
-   
+    /* width: 170px; */
+    padding-bottom: 40px;
+    position: relative;
 }
-.goodslistitem p{
+.goodslistitem img{
+    border-radius: 5px;
+    width: 100%;
+}
+.goods-info{
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
     font-size: 12px;
-    /* margin-bottom: 5px; */
+    overflow: hidden;
+    text-align: center;
 }
-.goodslistitem .price{
+.goods-info p{
+     overflow: hidden;
+     text-overflow: ellipsis;
+     white-space: nowrap;
+     margin-bottom: 3px;
+}
+.goods-info .price{
     color: rgb(246, 52, 45);
-    margin-right: 10px;
-    font-size: 14px;
+    margin-right: 30px;
+    /* font-size: 14px; */
 }
-.goodslistitem .collect{
+.goods-info .collect{
+    position: relative;
     color: rgb(255, 123, 0);
 }
+.goods-info .collect::before{
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: -1px;
+    width: 14px;
+    height: 14px;
+    background: url('~assets/img/common/collect.svg') 0 0/14px 14px ;
+}
+
+
 </style>

@@ -16,5 +16,6 @@ export default {
 <style>
 .popular img{
     width: 100%;
+    margin: 0 2px;
 }
 </style>
