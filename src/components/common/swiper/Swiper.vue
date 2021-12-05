@@ -194,6 +194,7 @@ export default {
     #home-swiper{
         overflow: hidden;
         position: relative;
+        z-index: 9
     }
     .swiper {
         display: flex;
