@@ -33,10 +33,10 @@ import Popular from './childComps/Popular'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
 import Scroll from 'components/common/scroll/Scroll'
-import BackTop from 'components/content/backTop/BackTop'
 
 import {getHomeMultidata, getHomeGoods} from 'network/home.js'
-import {debounce} from 'common/utils.js'
+import {itemListenerMixin, backTopMixin} from 'common/mixin'
+
 
 
 export default {
@@ -49,8 +49,8 @@ export default {
         TabControl,
         GoodsList,
         Scroll,
-        BackTop
     },
+    mixins:[itemListenerMixin, backTopMixin],
     data(){
         return {
             banners: [],
@@ -61,19 +61,24 @@ export default {
                 'sell': {page: 0, list: []},
             },
             currentType: 'pop',
-            isShowBackTop: false,
+            // isShowBackTop: false,
             tabOffsetTop: 0,
             isTabFixed: false,
-            saveY:0
+            saveY:0,
+            itemImgListener:null
         }
     },
+    //钩子函数
     activated() {
-        this.$refs.scroll.scrollTo(0, this.saveY, 0)
         this.$refs.scroll.refresh()
+        this.$refs.scroll.scrollTo(0, this.saveY, 0)
+        
     },
     deactivated() {
         this.saveY = this.$refs.scroll.getScrollY()
         // console.log(this.saveY);
+        // 取消全局事件的监听
+        this.$bus.$off('itemImageLoad', this.itemImgListener)
     },
     created() {
         this.getHomeMultidata()
@@ -86,13 +91,16 @@ export default {
      
     },
     mounted() {
-        const refresh = debounce(this.$refs.scroll.refresh,50)
-         // 监听item中图片是否加载完成 解决scroll加载滚动高度时 图片未加载完成导致的问题
-        this.$bus.$on('itemImageLoad',()=>{
-            // console.log('bus----监听');
-            // this.$refs.scroll.refresh()
-            refresh()
-        })  
+    //     const refresh = debounce(this.$refs.scroll.refresh,50)
+    //      // 监听item中图片是否加载完成 解决scroll加载滚动高度时 图片未加载完成导致的问题
+        
+    //     // 保存监听事件
+    //     this.itemImgListener = ()=>{
+    //         // console.log('bus----监听');
+    //         // this.$refs.scroll.refresh()
+    //      refresh()
+    //     }
+    //    this.$bus.$on('itemImageLoad',this.itemImgListener)  
  
     },
     
@@ -118,20 +126,14 @@ export default {
             this.$refs.tabControl2.currentIndex = index
 
         }, 
-        backClick(){
-            // console.log('返回顶部');
-            // Scroll组件里有个scroll的属性
-            this.$refs.scroll.scrollTo(0, 0)
-         },
+        // backClick(){ 抽到了Mixin中},
         contentScroll(position){
-            // console.log(position);
             // 判断返回上面是否显示
             this.isShowBackTop = Math.abs(position.y) >= 1000
             // 判断tabcontrol是否吸顶
             this.isTabFixed = Math.abs(position.y) > this.tabOffsetTop
         },
         loadMore(){
-            // console.log('上拉加载更多');
             this.getHomeGoods(this.currentType)
             // this.$refs.scroll.refresh()
         },
@@ -151,17 +153,12 @@ export default {
                 this.goods[type].page += 1
 
                 this.$refs.scroll.finishPullUp()
-                
-                // console.log(res);
-                // console.log(res.data.page);
             })
         },
         swiperImageLoad(){
         // 在轮播图加载完成后监听，避免图像未完全加载出来导致offsettop数值错误
         // 获取tabcontrol组件内的模板元素的offsettop 
-        // console.log(this.$refs.tabControl.$el.offsetTop);
         this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
-            // console.log(this.$refs.tabControl.$el.offsetTop);
         }
     },
     computed:{
@@ -175,24 +172,15 @@ export default {
 
 <style scoped>
     #home{
-        /* padding-top: 44px; */
-        /* 视口高度 */
         height: 100vh;
-        /* position: relative; */
     }
     .home-nav{
         background-color: var(--color-tint);
         font-size: 18px;
         color:white;
-        /* position: fixed;
-        left: 0;
-        right: 0;
-        top: 0;
-        z-index: 9; */
     }
    
     .content{
-        /* height: calc(100% - 93px); */
         position: absolute;
         top: 44px;
         bottom: 49px;
@@ -205,11 +193,4 @@ export default {
         background-color: #fff;
         z-index: 9;
     }
-    /* .tabFixed{
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 44px;
-
-    } */
 </style>

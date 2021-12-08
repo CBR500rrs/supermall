@@ -1,16 +1,20 @@
 <template>
-    <div class="goods-info" v-if="Object.keys(detailInfo).length !== 0">
+    <div id="goods-info" v-if="Object.keys(detailInfo).length !== 0">
         <div class="info-desc clear-fix">
             <div class="start"></div>
              <div class="desc">{{detailInfo.desc}}</div>
             <div class="end"></div>
            
         </div>
-        <div class="info-key">{{detailInfo.detailImage[0].key}}</div>
-        <div class="info-list">
-            <img :src="item" v-for="(item,index) in detailInfo.detailImage[0].list"
-            :key="index" @load="imgLoad">
+        <div class="goods-detail" v-for="(item,index) in detailInfo.detailImage " :key="index">
+            <div class="info-key">{{item.key}}</div>
+            <div class="info-list">
+                <img :src="itemimg" v-for="(itemimg,indexi) in item.list"
+                :key="indexi" @load="imgLoad" >
+                <!--  -->
+            </div>  
         </div>
+        
     </div>
 </template>
 
@@ -42,14 +46,23 @@ export default {
     watch:{
         detailInfo(){
             //获取图片个数
-            this.imagesLength = this.detailInfo.detailImage[0].list.length
+            let count = 0
+            for(let i=0;i<this.detailInfo.detailImage.length;i++){
+                if(this.detailInfo.detailImage[i].list){
+                    count += this.detailInfo.detailImage[i].list.length  
+                }
+                    
+            }
+            this.imagesLength = count
+            // this.imagesLength = this.detailInfo.detailImage[0].list.length
+            // console.log(this.imagesLength);
         }
     },
 }
 </script>
 
-<style>
-.goods-info{
+<style scoped>
+#goods-info{
     padding: 20px 0 ;
     border-bottom: 5px solid #f2f5f8;
 }

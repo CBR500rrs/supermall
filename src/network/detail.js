@@ -1,11 +1,19 @@
 import {request} from './request'
 
+// 详情页接口
 export function getDetail(iid){
     return  request({
         url:'/detail',
         params:{
             iid
         }
+    })
+}
+
+// 推荐接口
+export function  getRecommend(){
+    return request({
+        url:'/recommend'
     })
 }
 
@@ -16,7 +24,9 @@ export class Goods{
         this.desc = itemInfo.desc
         this.newPrice = itemInfo.price
         this.oldPrice = itemInfo.oldPrice
+        this.realPrice = itemInfo.lowNowPrice
         this.discount = itemInfo.discountDesc
+        this.discountBgColor = itemInfo.discountBgColor
         this.columns = columns
         this.services = services
         this.realPrice = itemInfo.lowNowPrice 

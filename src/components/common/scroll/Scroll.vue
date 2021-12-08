@@ -47,6 +47,7 @@ export default {
         if(this.probeType === 2 || this.probeType === 3){
             this.scroll.on('scroll',(position)=>{
             // console.log(position);
+            // 监听滚动事件
             //发出事件scroll 接受到的事件获得position参数
                 this.$emit('scroll',position)
             })

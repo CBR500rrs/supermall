@@ -46,7 +46,7 @@ export default {
         }
     },
     filters:{
-        sellCountFilter:function(value){
+        sellCountFilter(value){
             if(value<10000)return value
             return (value/10000).toFixed(1)+'万'
         }
@@ -99,6 +99,7 @@ export default {
     color: black;
 }
 .shop-evaluate{
+    font-size: 15px;
     color: black;
 }
 .shop-evaluate table{

@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .category-nav{
         background-color: var(--color-tint);
         font-size: 18px;

@@ -4,7 +4,7 @@
         <div class="info-price">
             <span class="n-price">{{goods.newPrice}}</span>
             <span class="o-price">{{goods.oldPrice}}</span>
-            <span v-if="goods.discount" class="discount">{{goods.discount}}</span>
+            <span v-if="goods.discount" class="discount" :style="{backgroundColor:goods.discountBgColor}">{{goods.discount}}</span>
         </div>
         <div class="info-other">
             <span>{{goods.columns[0]}}</span>
@@ -64,12 +64,8 @@ export default {
 .discount{
     font-size: 13px;
     display: inline-block;
-    /* height: 20px; */
-    /* width: 50px; */
-    /* text-align: center; */
-    /* line-height: 20px; */
-    padding: 2px 6px;
-    background-color: var(--color-high-text);
+    padding: 1px 4px;
+    /* background-color: var(--color-high-text); */
     color: #fff;
     border-radius: 10px;
     position: relative;
