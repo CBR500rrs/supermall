@@ -11,7 +11,7 @@ VueRouter.prototype.push = function push(location) {
 
 const Home = ()=>import('../views/home/Home')
 const Category = ()=>import('../views/category/Category')
-const Shopcart = ()=>import('../views/shopcart/Shopcart')
+const ShopCart = ()=>import('../views/shopcart/ShopCart')
 const Profile = ()=>import('../views/profile/Profile')
 const Detail = ()=>import('../views/detail/Detail')
 
@@ -33,7 +33,7 @@ const routes = [
     component:Category
     },{
     path:'/shopcart',
-    component:Shopcart
+    component: ShopCart
     },
     {
     path:'/profile',

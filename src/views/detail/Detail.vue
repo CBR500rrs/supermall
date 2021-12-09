@@ -12,6 +12,7 @@
        </scroll>
        <detail-bottom-bar @addCart='addToCart'></detail-bottom-bar>
         <back-top @click.native="backClick" v-show='isShowBackTop'></back-top>
+     
     </div>
 </template>
 
@@ -24,6 +25,7 @@ import DetailGoodsInfo from './childComps/DetailGoodsInfo.vue'
 import DetailParamInfo from './childComps/DetailParamInfo.vue'
 import DetailCommentInfo from './childComps/DetailCommentInfo.vue'
 import DetailBottomBar from './childComps/DetailBottomBar.vue'
+
 
 import Scroll from 'components/common/scroll/Scroll'
 import GoodsList from 'components/content/goods/GoodsList'
@@ -167,11 +169,13 @@ export default {
             product.desc = this.goods.desc
             product.price = this.goods.realPrice
             product.iid = this.iid
-            console.log(product);
+            // console.log(product);
             // 使用vueX管理传入购物车的信息
+
+            // 将商品添加到购物车
+            this.$store.dispatch('addCart', product)
              
         }
-        
     },
 }
 </script>
@@ -183,6 +187,7 @@ export default {
     background-color: #fff;
 }
 .content{
+    overflow: hidden;
     height: 95vh;
     background-color: #fff;
 }

@@ -9,7 +9,7 @@
                 <i class="icon shop"></i>
                 <span class="text">店铺</span>
             </div>
-                <div>
+            <div class="add-collect">
                 <i class="icon collect"></i>
                 <span class="text">收藏</span>
             </div>
@@ -25,12 +25,13 @@
 <script>
 export default {
     name:'DetailBottomBar',
+    
     methods: {
         addToCart(){
-            // console.log('buyClick');
+            console.log('加入购物车');
             this.$emit('addCart')
-
-        }
+        },
+       
     },
 }
 </script>
@@ -45,6 +46,7 @@ export default {
         bottom: 0;
         display: flex;
         text-align: center;
+        /* z-index: 9; */
     }
     .bar-item{
         flex: 1;
@@ -65,6 +67,7 @@ export default {
     }
     .bar-left .service{
         background-position: 0 -54px;
+        /* background-position: 0 -28px; */
     }
     .bar-left .shop{
         background-position: 0 -102px;
